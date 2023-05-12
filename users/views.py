@@ -7,6 +7,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import views, status
 from rest_framework.response import Response
 from .form import userForm
+import json
 
 
 class userAPIView(views.APIView):
@@ -25,42 +26,55 @@ class userAPIView(views.APIView):
 
     def post(self, request):
         try:
-            data = JSONParser().parse(request)
+            data = json.loads(request.body)
             serializer = userSerializer(data=data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response("Error parse json. Please make sure Content-Type = application/json in headers", status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, id=None):
+    def get(self, request, id=0):
         try:
-
-            if id == None:
+            if id == 0:
                 data = user.objects.all()
-                many = True if data.count() > 1 else False
+                many = True
 
             else:
                 data = user.objects.get(pk=id)
                 many = False
             ser = userSerializer(data, many=many)
-            if len(ser.data) == 0:
-                return Response(f"id {id} Was Not Found", status=status.HTTP_404_NOT_FOUND)
+            # if len(ser.data) == 0:
+            #     return Response(f"id {id} Was Not Found", status=status.HTTP_404_NOT_FOUND)
             return Response(ser.data)
         except Exception as e:
             print(e)
-            return Response("Request In wrong format", status=status.HTTP_400_BAD_REQUEST)
+            return Response(f"{e}", status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, id):
         try:
-            us = get_object_or_404(user, pk=id)
+            if not user.objects.filter(pk=id).exists():
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            us = user.objects.get(pk=id)
             data = JSONParser().parse(request)
-            us.name = data["name"]
-            us.email = data["email"]
-            us.phone_number = data["phone_number"]
+            us.name = data["name"] if "name" in data else us.name
+            us.email = data["email"] if "email" in data else us.email
+            us.phone_number = data["phone_number"] if "phone_number" in data else us.phone_number
+            us.website_name = data["website_name"] if "website_name" in data else us.website_name
+            us.adminPassword = data["adminPassword"] if "adminPassword" in data else us.adminPassword
             us.save()
             return Response(status=status.HTTP_202_ACCEPTED)
+        except Exception as e:
+            return Response(e, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            us = user.objects.filter(pk=id)
+            if us.exists():
+                us.delete()
+                return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response(e, status=status.HTTP_400_BAD_REQUEST)

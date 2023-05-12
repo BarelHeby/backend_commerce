@@ -22,8 +22,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('users', usersPath.as_view()),
-    path('users/<int:id>', usersPath.as_view()),
+    path('users', usersPath.as_view(), name='users'),
+    path('users/<int:id>', usersPath.as_view(), name='users_id'),
 ]
 
 urlpatterns += [
