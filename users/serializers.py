@@ -8,3 +8,4 @@ class userSerializer(serializers.ModelSerializer):
         model = models.user
         fields = ["id", "name", "phone_number",
                   "email", "website_name", "adminPassword"]
+        # fields = '__all__'

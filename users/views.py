@@ -37,15 +37,20 @@ class userAPIView(views.APIView):
 
     def get(self, request, id=None):
         try:
-            if id is None:
+
+            if id == None:
                 data = user.objects.all()
+                many = True if data.count() > 1 else False
+
             else:
-                data = user.objects.filter(id=id)
-            ser = userSerializer(data, many=True)
+                data = user.objects.get(pk=id)
+                many = False
+            ser = userSerializer(data, many=many)
             if len(ser.data) == 0:
                 return Response(f"id {id} Was Not Found", status=status.HTTP_404_NOT_FOUND)
             return Response(ser.data)
         except Exception as e:
+            print(e)
             return Response("Request In wrong format", status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, id):

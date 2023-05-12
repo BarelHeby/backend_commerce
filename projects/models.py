@@ -4,7 +4,7 @@ from users.models import user
 
 
 class project(models.Model):
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    user = models.ForeignKey(user, default=None, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=250)
     insert_date = models.DateTimeField()
