@@ -6,6 +6,4 @@ from rest_framework.fields import IntegerField, CharField, DateTimeField, Boolea
 class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.user
-        fields = ["id", "name", "phone_number",
-                  "email", "website_name", "adminPassword"]
-        # fields = '__all__'
+        fields = '__all__'
