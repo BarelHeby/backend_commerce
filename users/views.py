@@ -55,7 +55,9 @@ class userAPIView(views.APIView):
 
     def put(self, request, id):
         try:
-            us = get_object_or_404(user, pk=id)
+            if not user.objects.filter(pk=id).exists():
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            us = user.objects.get(pk=id)
             data = JSONParser().parse(request)
             us.name = data["name"] if "name" in data else us.name
             us.email = data["email"] if "email" in data else us.email
