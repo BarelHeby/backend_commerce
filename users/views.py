@@ -66,3 +66,13 @@ class userAPIView(views.APIView):
             return Response(status=status.HTTP_202_ACCEPTED)
         except Exception as e:
             return Response(e, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        try:
+            us = user.objects.filter(pk=id)
+            if us.exists():
+                us.delete()
+                return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response(e, status=status.HTTP_400_BAD_REQUEST)
