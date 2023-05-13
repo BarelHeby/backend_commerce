@@ -19,6 +19,7 @@ from users.views import userAPIView as usersPath
 from projects.views import projectAPIView as projectsPath
 from websites.views import websiteAPIView as websitesPath
 from phases.views import phaseAPIView as phasesPath
+from project_image.views import projectImagesAPIView as projectImagesPath
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
@@ -41,4 +42,9 @@ urlpatterns += [
 urlpatterns += [
     path('phases', phasesPath.as_view()),
     path('phases/<int:id>', phasesPath.as_view()),
+]
+
+urlpatterns += [
+    path('project_images', projectImagesPath.as_view()),
+    path('project_images/<int:id>', projectImagesPath.as_view()),
 ]
