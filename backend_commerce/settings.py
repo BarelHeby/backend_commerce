@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # OWN
     "users",
     'projects',
-    'websites'
+    'websites',
+    'phases'
 ]
 
 MIDDLEWARE = [
