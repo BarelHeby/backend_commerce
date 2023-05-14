@@ -81,6 +81,26 @@ class phaseAPIView(views.APIView):
                 phas.phase_4 = phase_4
             except:
                 pass
+            try:
+                phase_1_header = data["phase_1_header"]
+                phas.phase_1_header = phase_1_header
+            except:
+                pass
+            try:
+                phase_2_header = data["phase_2_header"]
+                phas.phase_2_header = phase_2_header
+            except:
+                pass
+            try:
+                phase_3_header = data["phase_3_header"]
+                phas.phase_3_header = phase_3_header
+            except:
+                pass
+            try:
+                phase_4_header = data["phase_4_header"]
+                phas.phase_4_header = phase_4_header
+            except:
+                pass
             phas.save()
             return Response(status=status.HTTP_202_ACCEPTED)
         except Exception as e:

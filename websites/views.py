@@ -20,11 +20,11 @@ class websiteAPIView(views.APIView):
             # logo = base64.b64encode(uploaded_file.read())
 
             name = request.POST.get('name')
-            phone = request.POST.get('name')
-            email = request.POST.get('name')
-            whatsapp = request.POST.get('name')
-            instegram_link = request.POST.get('name')
-            facebook_link = request.POST.get('name')
+            phone = request.POST.get('phone')
+            email = request.POST.get('email')
+            whatsapp = request.POST.get('whatsapp')
+            instegram_link = request.POST.get('instegram_link')
+            facebook_link = request.POST.get('facebook_link')
             data = {
                 "name": name,
                 "phone": phone,

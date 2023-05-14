@@ -13,7 +13,7 @@ class projectAPIView(views.APIView):
 
     def check_vaildality(self, request):
         params = request.query_params
-        if "user_id" in params:
+        if "website_id" in params:
             return params
         return None
 
@@ -33,8 +33,8 @@ class projectAPIView(views.APIView):
         try:
             params = self.check_vaildality(request)
             if not params:
-                return Response("user id is not mention in parameters", status=status.HTTP_400_BAD_REQUEST)
-            data = project.objects.filter(user=params["user_id"])
+                return Response("website id is not mention in parameters", status=status.HTTP_400_BAD_REQUEST)
+            data = project.objects.filter(website=params["website_id"])
             if id:
                 data = data.filter(pk=id)
             if "is_in_use" in params:
@@ -61,8 +61,8 @@ class projectAPIView(views.APIView):
 
             params = self.check_vaildality(request)
             if not params:
-                return Response("user id is not mention in parameters", status=status.HTTP_400_BAD_REQUEST)
-            proj = project.objects.get(pk=id, user=params["user_id"])
+                return Response("website id is not mention in parameters", status=status.HTTP_400_BAD_REQUEST)
+            proj = project.objects.get(pk=id, user=params["website_id"])
             data = JSONParser().parse(request)
             if "title" in data:
                 proj.title = data["title"]

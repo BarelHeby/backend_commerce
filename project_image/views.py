@@ -34,8 +34,8 @@ class projectImagesAPIView(views.APIView):
 
     def get(self, request, id):
         try:
-            data = project_image.objects.get(pk=id)
-            ser = projectImageSerializer(data)
+            data = project_image.objects.filter(project=id)
+            ser = projectImageSerializer(data, many=True)
             return Response(ser.data)
         except Exception as e:
             print(e)

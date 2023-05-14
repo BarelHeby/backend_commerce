@@ -1,10 +1,11 @@
 from django.db import models
-from users.models import user
+from websites.models import website
 # Create your models here.
 
 
 class project(models.Model):
-    user = models.ForeignKey(user, default=None, on_delete=models.CASCADE)
+    website = models.ForeignKey(
+        website, default=None, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=250)
     insert_date = models.DateTimeField()

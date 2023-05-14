@@ -20,6 +20,8 @@ from projects.views import projectAPIView as projectsPath
 from websites.views import websiteAPIView as websitesPath
 from phases.views import phaseAPIView as phasesPath
 from project_image.views import projectImagesAPIView as projectImagesPath
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
@@ -48,3 +50,5 @@ urlpatterns += [
     path('project_images', projectImagesPath.as_view()),
     path('project_images/<int:id>', projectImagesPath.as_view()),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

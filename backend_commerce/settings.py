@@ -141,3 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 os.environ['PYTHONDONTWRITEBYTECODE'] = '1'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'assets', "db_images")
+MEDIA_URL = '/media/'
