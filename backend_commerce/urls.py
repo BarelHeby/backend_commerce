@@ -18,6 +18,7 @@ from django.urls import path
 from users.views import userAPIView as usersPath
 from projects.views import projectAPIView as projectsPath
 from websites.views import websiteAPIView as websitesPath
+from websites.imageView import websiteLogoAPIView as websiteImagePath
 from phases.views import phaseAPIView as phasesPath
 from project_image.views import projectImagesAPIView as projectImagesPath
 from django.conf.urls.static import static
@@ -39,6 +40,7 @@ urlpatterns += [
 urlpatterns += [
     path('websites', websitesPath.as_view()),
     path('websites/<int:id>', websitesPath.as_view()),
+    path('websites/image/<int:id>', websiteImagePath.as_view()),
 ]
 
 urlpatterns += [

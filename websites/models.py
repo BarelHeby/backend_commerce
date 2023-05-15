@@ -11,3 +11,5 @@ class website(models.Model):
     whatsapp = models.CharField(max_length=15)
     instegram_link = models.CharField(max_length=150)
     facebook_link = models.CharField(max_length=150)
+    facebook_link = models.CharField(max_length=150)
+    about = models.TextField(default="", null=False)
