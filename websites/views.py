@@ -3,8 +3,6 @@ from .models import website
 from rest_framework.parsers import JSONParser
 from rest_framework import views, status
 from rest_framework.response import Response
-import json
-import base64
 from django.conf import settings
 import os
 
@@ -25,6 +23,7 @@ class websiteAPIView(views.APIView):
             whatsapp = request.POST.get('whatsapp')
             instegram_link = request.POST.get('instegram_link')
             facebook_link = request.POST.get('facebook_link')
+            about = request.POST.get('about')
             data = {
                 "name": name,
                 "phone": phone,
@@ -32,7 +31,8 @@ class websiteAPIView(views.APIView):
                 "whatsapp": whatsapp,
                 "instegram_link": instegram_link,
                 "facebook_link": facebook_link,
-                "logo": logo
+                "logo": logo,
+                "about": about
             }
             # data = json.loads(request.body)
             serializer = websiteSerializer(data=data)
@@ -64,35 +64,17 @@ class websiteAPIView(views.APIView):
             if not website.objects.filter(pk=id).exists():
                 return Response(status=status.HTTP_404_NOT_FOUND)
             web = website.objects.get(pk=id)
-            try:
-                web.name = request.PUT.get('name')
-            except:
-                pass
-            try:
-                web.email = request.PUT.get('email')
-            except:
-                pass
-            try:
-                web.phone = request.PUT.get('phone')
-            except:
-                pass
-            try:
-                web.whatsapp = request.PUT.get('whatsapp')
-            except:
-                pass
-            try:
-                web.instegram_link = request.PUT.get('instegram_link')
-            except:
-                pass
-            try:
-                web.facebook_link = request.PUT.get('facebook_link')
-            except:
-                pass
-            try:
-                logo = request.FILES['logo']
-                web.logo = logo
-            except:
-                pass
+
+            data = JSONParser().parse(request)
+            print(data)
+            fields = ["name", "email", "phone", "whatsapp",
+                      "instegram_link", "facebook_link", "about"]
+            for field in fields:
+                if field not in data:
+                    raise Exception(f"{field} not provided in the json")
+                else:
+                    if not field == "":
+                        setattr(web, field, data[field])
             web.save()
             return Response(status=status.HTTP_202_ACCEPTED)
         except Exception as e:
@@ -114,3 +96,5 @@ class websiteAPIView(views.APIView):
         except Exception as e:
             print(e)
             return Response(e, status=status.HTTP_400_BAD_REQUEST)
+
+
