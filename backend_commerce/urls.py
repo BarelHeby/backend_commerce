@@ -21,10 +21,13 @@ from websites.views import websiteAPIView as websitesPath
 from websites.imageView import websiteLogoAPIView as websiteImagePath
 from phases.views import phaseAPIView as phasesPath
 from project_image.views import projectImagesAPIView as projectImagesPath
+from reviews.views import reviewAPIView as reviewsPath
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
 ]
 
 urlpatterns += [
@@ -54,3 +57,8 @@ urlpatterns += [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    path('reviews', reviewsPath.as_view()),
+    path('reviews/<int:id>', reviewsPath.as_view()),
+]
